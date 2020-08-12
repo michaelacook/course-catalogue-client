@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cors": "^2.8.5",
     "nodemon": "^1.18.3",
     "sequelize-cli": "^6.2.0"
   },
