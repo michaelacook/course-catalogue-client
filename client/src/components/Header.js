@@ -9,10 +9,10 @@ const Header = () => {
           <h1 class="header--logo">Courses</h1>
         </NavLink>
         <nav>
-          <NavLink class="signup" to="sign-up.html">
+          <NavLink class="signup" to="/signup">
             Sign Up
           </NavLink>
-          <NavLink class="signin" to="sign-in.html">
+          <NavLink class="signin" to="/signin">
             Sign In
           </NavLink>
         </nav>

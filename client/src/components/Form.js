@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
 class Form extends Component {
   constructor(props) {
@@ -10,16 +10,9 @@ class Form extends Component {
     this.props.submit()
   }
 
-  handleCancel = (e) => {
-    e.preventDefault()
-    this.props.cancel()
-  }
-
   render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        {this.props.elements()}
-      </form>
-    )
+    return <form onSubmit={this.handleSubmit}>{this.props.elements()}</form>
   }
 }
+
+export default Form
