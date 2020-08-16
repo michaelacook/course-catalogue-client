@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import Form from "./Form"
 
-class UpdateCourse extends Component {
+export default class UpdateCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -131,5 +131,3 @@ class UpdateCourse extends Component {
     )
   }
 }
-
-export default UpdateCourse

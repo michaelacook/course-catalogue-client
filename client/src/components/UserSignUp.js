@@ -1,28 +1,54 @@
 import React, { Component, Fragment } from "react"
+import { Link } from "react-router-dom"
 import Form from "./Form"
 
 export default class UserSignUp extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      password: "",
+      confirmPassword: "",
+    }
   }
 
-  state = {}
-
-  submit = (e) => {}
+  submit = () => {
+    const { history } = this.props
+    const { firstName, lastName, emailAddress, password } = this.state
+    this.props
+      .signup({firstName, lastName, emailAddress, password})
+      .then(() => history.push('/signin'))
+      .catch((errors) => {
+        this.setState({
+          errors: errors
+        })
+      })
+  }
 
   cancel = () => {
     this.props.history.push("/")
   }
 
-  change = ({ target: { name, value } }) => {
+  change = (event) => {
+    const { name, value } = event.target
     this.setState({
       [name]: value,
     })
   }
 
   render() {
+    const {
+      firstName,
+      lastName,
+      emailAddress,
+      password,
+      confirmPassword,
+    } = this.state
     return (
       <Form
+        submit={this.submit}
         elements={() => (
           <Fragment>
             <div class="bounds">
@@ -37,7 +63,7 @@ export default class UserSignUp extends Component {
                       type="text"
                       class=""
                       placeholder="First Name"
-                      value=""
+                      value={firstName}
                     />
                   </div>
                   <div>
@@ -48,7 +74,7 @@ export default class UserSignUp extends Component {
                       type="text"
                       class=""
                       placeholder="Last Name"
-                      value=""
+                      value={lastName}
                     />
                   </div>
                   <div>
@@ -59,7 +85,7 @@ export default class UserSignUp extends Component {
                       type="text"
                       class=""
                       placeholder="Email Address"
-                      value=""
+                      value={emailAddress}
                     />
                   </div>
                   <div>
@@ -70,7 +96,7 @@ export default class UserSignUp extends Component {
                       type="password"
                       class=""
                       placeholder="Password"
-                      value=""
+                      value={password}
                     />
                   </div>
                   <div>
@@ -81,7 +107,7 @@ export default class UserSignUp extends Component {
                       type="password"
                       class=""
                       placeholder="Confirm Password"
-                      value=""
+                      value={confirmPassword}
                     />
                   </div>
                 </div>

@@ -32,7 +32,7 @@ module.exports = class UserController {
       )
       if (userAlreadyExists) {
         return res.status(400).json({
-          error: "A user with the provided email address already exists.",
+          errors: "A user with the provided email address already exists.",
         })
       }
       await UserService.addUser(req.body)

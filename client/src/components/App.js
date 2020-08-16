@@ -39,7 +39,13 @@ export default class App extends Component {
               <CourseDetail match={match} getCourse={service.getCourse} />
             )}
           />
-          <Route exact path="/signup" component={UserSignUp} />
+          <Route
+            exact
+            path="/signup"
+            render={({ match, history }) => (
+              <UserSignUp match={match} history={history} signup={service.signUp} />
+            )}
+          />
           <Route exact path="/signin" component={UserSignIn} />
           <Route
             path="/courses/:id/update"

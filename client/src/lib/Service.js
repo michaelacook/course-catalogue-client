@@ -15,37 +15,48 @@ export default class Service {
    * body must be a JSON string
    * @return {String} JSON stringified object
    */
-  static async request(url, options, credentials = null) {
+  static request(url, options, credentials = null) {
     if (credentials !== null) {
       const encodedCredentials = btoa(
         `${credentials.username}:${credentials.password}`
       )
       options.headers["Authorization"] = `Basic ${encodedCredentials}`
     }
-    const response = await fetch(url, options)
-    if (response.status === 400) {
-      return response.json().then((data) => {
-        return data.errors
-      })
-    }
-    return response.json()
+    return fetch(url, options)
   }
 
+  /**
+   * Send GET request for all courses in the database
+   * @return {Object} data on response status 200
+   */
   static async getCourses() {
-    const courses = await Service.request("http://localhost:5000/api/courses", {
+    const response = await Service.request("http://localhost:5000/api/courses", {
       method: "GET",
     })
-    return courses
+    if (response.status === 200) {
+      return response.json().then(data => data)
+    } else if (response.status === 400) {
+      throw new Error()
+    }
   }
 
+  /**
+   * Send GET request for a single course
+   * @param {Number} id - PK id for course
+   * @return {Object} data on response status 200
+   */
   static async getCourse(id) {
-    const course = await Service.request(
+    const response = await Service.request(
       `http://localhost:5000/api/courses/${id}`,
       {
         method: "GET",
       }
     )
-    return course
+    if (response.status === 200) {
+      return response.json().then(data => data)
+    } else if (response.status === 400) {
+      throw new Error()
+    }
   }
 
   static async addCourse() {}
@@ -54,7 +65,27 @@ export default class Service {
 
   static async deleteCourse() {}
 
-  static async signUp() {}
+  /**
+   * Send POST request to create user
+   * @param {Object} body - should contain firstName, lastName, emailAddress, password
+   * @return {Promise} on response status 201
+   * @return {Array} data.errors on status 400 
+   */
+  static async signUp(body) {
+    const response = await Service.request("http://localhost:5000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+    if (response.status === 201) {
+      return []
+    } else if (response.status === 400) {
+      const errors = await response.json().then(data => data.errors)
+      return Promise.reject(errors)
+    } else {
+      throw new Error()
+    }
+  }
 
   static async signIn() {}
 }
