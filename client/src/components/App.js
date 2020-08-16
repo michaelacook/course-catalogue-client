@@ -14,22 +14,39 @@ export default class App extends Component {
     super(props)
     this.state = {
       service: Service,
-      user: null
+      user: null,
     }
   }
 
   render() {
-    const { service } = this.state
+    const { service, user } = this.state
     return (
       <BrowserRouter>
         <Route path="/" component={Header} />
         <Switch>
-          <Route exact path="/" render={() => <Courses getCourses={service.getCourses} />} />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Courses user={user} getCourses={service.getCourses} />
+            )}
+          />
           <Route exact path="/courses/create" component={CreateCourse} />
-          <Route exact path="/courses/:id" component={CourseDetail} />
+          <Route
+            exact
+            path="/courses/:id"
+            render={({ match }) => (
+              <CourseDetail match={match} getCourse={service.getCourse} />
+            )}
+          />
           <Route exact path="/signup" component={UserSignUp} />
           <Route exact path="/signin" component={UserSignIn} />
-          <Route path="/courses/:id/update" component={UpdateCourse} />
+          <Route
+            path="/courses/:id/update"
+            render={({ match }) => (
+              <UpdateCourse match={match} getCourse={service.getCourse} />
+            )}
+          />
         </Switch>
       </BrowserRouter>
     )

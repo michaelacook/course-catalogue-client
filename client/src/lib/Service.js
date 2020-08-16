@@ -17,8 +17,10 @@ export default class Service {
    */
   static async request(url, options, credentials = null) {
     if (credentials !== null) {
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`)
-      options.headers['Authorization'] = `Basic ${encodedCredentials}`
+      const encodedCredentials = btoa(
+        `${credentials.username}:${credentials.password}`
+      )
+      options.headers["Authorization"] = `Basic ${encodedCredentials}`
     }
     const response = await fetch(url, options)
     if (response.status === 400) {

@@ -5,16 +5,16 @@ import Form from "./Form"
 class UpdateCourse extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      title: "",
+      description: "",
+      estimatedTime: "",
+      materialsNeeded: "",
+    }
   }
 
-  state = {
-    title: "",
-    description: "",
-    estimatedTime: "",
-    materialsNeeded: "",
-  }
-
-  handleChange = ({ target: { name, value } }) => {
+  handleChange = (event) => {
+    const { name, value } = event.target
     this.setState({
       [name]: value,
     })
@@ -26,7 +26,20 @@ class UpdateCourse extends Component {
 
   submit = () => {}
 
+  componentDidMount() {
+    const id = this.props.match.params.id
+    this.props.getCourse(id).then((data) => {
+      this.setState({
+        title: data.course.title,
+        description: data.course.description,
+        estimatedTime: data.course.estimatedTime,
+        materialsNeeded: data.course.materialsNeeded,
+      })
+    })
+  }
+
   render() {
+    const { title, description, estimatedTime, materialsNeeded } = this.state
     return (
       <div>
         <div class="bounds course--detail">
@@ -42,14 +55,12 @@ class UpdateCourse extends Component {
                       <h4 class="course--label">Course</h4>
                       <div>
                         <input
-                          onChange={this.onChange}
+                          onChange={this.handleChange}
                           id="title"
                           name="title"
                           type="text"
                           class="input-title course--title--input"
-                          placeholder="Course title..."
-                          // current title
-                          value="Course Title"
+                          value={title}
                         />
                         {/* course creator name */}
                         <p>By</p>
@@ -57,14 +68,12 @@ class UpdateCourse extends Component {
                       <div class="course--description">
                         <div>
                           <textarea
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                             id="description"
                             name="description"
-                            class=""
-                            placeholder="Course description..."
-                          >
-                            {/* current course description */}
-                          </textarea>
+                            class="course--description"
+                            value={description}
+                          ></textarea>
                         </div>
                       </div>
                     </div>
@@ -77,14 +86,13 @@ class UpdateCourse extends Component {
                           <h4>Estimated Time</h4>
                           <div>
                             <input
-                              onChange={this.onChange}
+                              onChange={this.handleChange}
                               id="estimatedTime"
                               name="estimatedTime"
                               type="text"
                               class="course--time--input"
                               placeholder="Hours"
-                              // how many hours currently
-                              value=""
+                              value={estimatedTime}
                             />
                           </div>
                         </li>
@@ -92,14 +100,12 @@ class UpdateCourse extends Component {
                           <h4>Materials Needed</h4>
                           <div>
                             <textarea
-                              onChange={this.onChange}
+                              onChange={this.handleChange}
                               id="materialsNeeded"
                               name="materialsNeeded"
-                              class=""
                               placeholder="List materials..."
-                            >
-                              {/* materials needed */}
-                            </textarea>
+                              value={materialsNeeded}
+                            ></textarea>
                           </div>
                         </li>
                       </ul>
