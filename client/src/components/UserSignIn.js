@@ -4,23 +4,41 @@ import Form from "./Form"
 export default class UserSignIn extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      emailAddress: "",
+      password: "",
+      error: "",
+    }
   }
 
-  state = {}
-
-  submit = (e) => {}
+  submit = () => {
+    const { signIn } = this.props
+    const { history } = this.props
+    const { emailAddress, password } = this.state
+    signIn(emailAddress, password)
+      .then(() => {
+        history.push("/")
+      })
+      .catch((error) => {
+        this.setState({
+          error: error.message,
+        })
+      })
+  }
 
   cancel = () => {
     this.props.history.goBack()
   }
 
-  change = ({ target: { name, value } }) => {
+  change = (event) => {
+    const { name, value } = event.target
     this.setState({
       [name]: value,
     })
   }
 
   render() {
+    const { emailAddress, password, error } = this.state
     return (
       <Form
         submit={this.submit}
@@ -29,42 +47,41 @@ export default class UserSignIn extends Component {
             <div class="bounds">
               <div class="grid-33 centered signin">
                 <h1>Sign In</h1>
+                <h3>{error}</h3>
                 <div>
-                  <form>
-                    <div>
-                      <input
-                        onChange={this.change}
-                        id="emailAddress"
-                        name="emailAddress"
-                        type="text"
-                        class=""
-                        placeholder="Email Address"
-                        value=""
-                      />
-                    </div>
-                    <div>
-                      <input
-                        onChange={this.change}
-                        id="password"
-                        name="password"
-                        type="password"
-                        class=""
-                        placeholder="Password"
-                        value=""
-                      />
-                    </div>
-                    <div class="grid-100 pad-bottom">
-                      <button class="button" type="submit">
-                        Sign In
-                      </button>
-                      <button
-                        class="button button-secondary"
-                        onClick={this.cancel}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
+                  <div>
+                    <input
+                      onChange={this.change}
+                      id="emailAddress"
+                      name="emailAddress"
+                      type="text"
+                      class=""
+                      placeholder="Email Address"
+                      value={emailAddress}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      onChange={this.change}
+                      id="password"
+                      name="password"
+                      type="password"
+                      class=""
+                      placeholder="Password"
+                      value={password}
+                    />
+                  </div>
+                  <div class="grid-100 pad-bottom">
+                    <button class="button" type="submit">
+                      Sign In
+                    </button>
+                    <button
+                      class="button button-secondary"
+                      onClick={this.cancel}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
                 <p>&nbsp;</p>
                 <p>

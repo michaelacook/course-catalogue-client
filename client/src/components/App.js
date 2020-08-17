@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
+import Cookies from "js-cookie"
 import Header from "./Header"
 import Courses from "./Courses"
 import CreateCourse from "./CreateCourse"
@@ -14,7 +15,33 @@ export default class App extends Component {
     super(props)
     this.state = {
       service: Service,
-      user: null,
+      user: Cookies.getJSON("user") || null,
+    }
+    this.signIn = this.signIn.bind(this)
+  }
+
+  /**
+   * Call Service.authenticate to send Authorization header and fetch user
+   * On success, set global user state and persist user in a cookie
+   * On fail, throw an error containing the error message
+   * Caught error used to display to the user in the UserSignIn component
+   * @param {String} emailAddress
+   * @param {String} password
+   */
+  async signIn(emailAddress, password) {
+    try {
+      const { authenticate } = this.state.service
+      const response = await authenticate(emailAddress, password)
+      const { user } = response
+      user.password = password
+      Cookies.set("user", JSON.stringify(user), {
+        expires: 28,
+      })
+      this.setState({
+        user: user,
+      })
+    } catch (error) {
+      throw new Error("Your email address or password is incorrect.")
     }
   }
 
@@ -22,7 +49,7 @@ export default class App extends Component {
     const { service, user } = this.state
     return (
       <BrowserRouter>
-        <Route path="/" component={Header} />
+        <Route path="/" render={() => <Header user={user} />} />
         <Switch>
           <Route
             exact
@@ -43,10 +70,24 @@ export default class App extends Component {
             exact
             path="/signup"
             render={({ match, history }) => (
-              <UserSignUp match={match} history={history} signup={service.signUp} />
+              <UserSignUp
+                match={match}
+                history={history}
+                signup={this.signUp}
+              />
             )}
           />
-          <Route exact path="/signin" component={UserSignIn} />
+          <Route
+            exact
+            path="/signin"
+            render={({ match, history }) => (
+              <UserSignIn
+                match={match}
+                history={history}
+                signIn={this.signIn}
+              />
+            )}
+          />
           <Route
             path="/courses/:id/update"
             render={({ match }) => (

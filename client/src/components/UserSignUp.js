@@ -18,11 +18,11 @@ export default class UserSignUp extends Component {
     const { history } = this.props
     const { firstName, lastName, emailAddress, password } = this.state
     this.props
-      .signup({firstName, lastName, emailAddress, password})
-      .then(() => history.push('/signin'))
+      .signup({ firstName, lastName, emailAddress, password })
+      .then(() => history.push("/signin"))
       .catch((errors) => {
         this.setState({
-          errors: errors
+          errors: errors,
         })
       })
   }
