@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react"
+import { Link } from 'react-router-dom'
 import Form from "./Form"
 
 export default class UserSignIn extends Component {
@@ -12,8 +13,7 @@ export default class UserSignIn extends Component {
   }
 
   submit = () => {
-    const { signIn } = this.props
-    const { history } = this.props
+    const { history, signIn } = this.props
     const { emailAddress, password } = this.state
     signIn(emailAddress, password)
       .then(() => {
@@ -86,7 +86,7 @@ export default class UserSignIn extends Component {
                 <p>&nbsp;</p>
                 <p>
                   Don't have a user account?
-                  <a href="sign-up.html"> Click here</a> to sign up!
+                  <Link to="/signup"> Click here</Link> to sign up!
                 </p>
               </div>
             </div>
