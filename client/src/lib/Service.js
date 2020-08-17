@@ -70,7 +70,29 @@ export default class Service {
 
   static async updateCourse() {}
 
-  static async deleteCourse() {}
+  /**
+   * Send DELETE request to delete a course
+   * @param {Number} id - PK id of course being deleted
+   * @param {String} email - authenticated user email for Basic Auth
+   * @param {String} password - authenticated user email for Basic Auth
+   */
+  static async deleteCourse(id, emailAddress, password) {
+    console.log("deleteCourse called")
+    const response = await Service.request(
+      `http://localhost:5000/api/courses/${id}`,
+      "DELETE",
+      null,
+      { emailAddress, password }
+    )
+    if (response.status === 204) {
+      return Promise.resolve()
+    } else if (response.status === 401) {
+      const errors = await response.json().then((data) => data.message)
+      return Promise.reject(errors)
+    } else {
+      throw new Error("Something went wrong")
+    }
+  }
 
   /**
    * Send POST request to create user

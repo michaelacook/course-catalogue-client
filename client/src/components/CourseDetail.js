@@ -24,6 +24,23 @@ export default class CourseDetail extends Component {
     })
   }
 
+  delete = () => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      const { deleteCourse, history, match, user } = this.props
+      const { email, password } = user
+      const id = match.params.id
+      deleteCourse(id, email, password)
+        .then(() => {
+          history.push("/")
+        })
+        .catch((error) => {
+          this.setState({
+            error: error.message,
+          })
+        })
+    }
+  }
+
   render() {
     const { title, description, estimatedTime, materialsNeeded } = this.state
     return (
@@ -38,9 +55,9 @@ export default class CourseDetail extends Component {
                 >
                   Update Course
                 </Link>
-                <Link class="button" to="">
+                <button class="button" onClick={this.delete}>
                   Delete Course
-                </Link>
+                </button>
               </span>
               <Link class="button button-secondary" to="/">
                 Return to List

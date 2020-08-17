@@ -14,11 +14,11 @@ import UserSignOut from "./UserSignOut"
 export default class App extends Component {
   constructor(props) {
     super(props)
+    this.signIn = this.signIn.bind(this)
     this.state = {
       service: Service,
       user: Cookies.getJSON("user") || null,
     }
-    this.signIn = this.signIn.bind(this)
   }
 
   /**
@@ -75,8 +75,14 @@ export default class App extends Component {
           <Route
             exact
             path="/courses/:id"
-            render={({ match }) => (
-              <CourseDetail match={match} getCourse={service.getCourse} />
+            render={({ match, history }) => (
+              <CourseDetail
+                match={match}
+                history={history}
+                getCourse={service.getCourse}
+                deleteCourse={service.deleteCourse}
+                user={user}
+              />
             )}
           />
           <Route
