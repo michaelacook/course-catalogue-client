@@ -9,6 +9,7 @@ import UpdateCourse from "./UpdateCourse"
 import UserSignUp from "./UserSignUp"
 import UserSignIn from "./UserSignIn"
 import Service from "../lib/Service"
+import UserSignOut from "./UserSignOut"
 
 export default class App extends Component {
   constructor(props) {
@@ -43,6 +44,18 @@ export default class App extends Component {
     } catch (error) {
       throw new Error("Your email address or password is incorrect.")
     }
+  }
+
+  /**
+   * End a user session by deleting auth cookie and setting user state to null
+   * @return {Function} Redirect component
+   */
+  signOut = () => {
+    Cookies.remove("user")
+    this.setState({
+      user: null,
+    })
+    return <Redirect to="/signin" />
   }
 
   render() {
@@ -93,6 +106,11 @@ export default class App extends Component {
             render={({ match }) => (
               <UpdateCourse match={match} getCourse={service.getCourse} />
             )}
+          />
+          <Route
+            exact
+            path="/signout"
+            render={() => <UserSignOut signOut={this.signOut} />}
           />
         </Switch>
       </BrowserRouter>

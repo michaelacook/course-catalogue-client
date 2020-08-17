@@ -9,8 +9,9 @@ export default class Service {
   /**
    * Base HTTP request method
    * @param {String} url - API endpoint
-   * @param {Object} options - may contain HTTP verb, mode, cache, credentials, headers, body
-   * @param {Object} credentials - username (email) and password for Basic auth
+   * @param {String} method - HTTP verb, default GET
+   * @param {Object} body - HTTP payload, default null
+   * @param {Object} credentials - username (email) and password for Basic auth, default null
    * Headers must be an object
    * body must be a JSON string
    * @return {String} JSON stringified object
