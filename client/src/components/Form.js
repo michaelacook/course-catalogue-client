@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-class Form extends Component {
+export default class Form extends Component {
   constructor(props) {
     super(props)
   }
@@ -14,5 +14,3 @@ class Form extends Component {
     return <form onSubmit={this.handleSubmit}>{this.props.elements()}</form>
   }
 }
-
-export default Form

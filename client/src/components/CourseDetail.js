@@ -6,6 +6,7 @@ export default class CourseDetail extends Component {
     super(props)
     this.state = {
       title: "",
+      author: "",
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
@@ -15,7 +16,9 @@ export default class CourseDetail extends Component {
   componentDidMount() {
     const id = this.props.match.params.id
     this.props.getCourse(id).then((data) => {
+      console.log(data.course.author)
       this.setState({
+        author: data.course.author,
         title: data.course.title,
         description: data.course.description,
         estimatedTime: data.course.estimatedTime,
@@ -42,22 +45,33 @@ export default class CourseDetail extends Component {
   }
 
   render() {
-    const { title, description, estimatedTime, materialsNeeded } = this.state
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      author,
+    } = this.state
+    const { user } = this.props
     return (
       <div>
         <div class="actions--bar">
           <div class="bounds">
             <div class="grid-100">
               <span>
-                <Link
-                  class="button"
-                  to={`/courses/${this.props.match.params.id}/update`}
-                >
-                  Update Course
-                </Link>
-                <button class="button" onClick={this.delete}>
-                  Delete Course
-                </button>
+                {author.id === user.id ? (
+                  <span>
+                    <Link
+                      class="button"
+                      to={`/courses/${this.props.match.params.id}/update`}
+                    >
+                      Update Course
+                    </Link>
+                    <button class="button" onClick={this.delete}>
+                      Delete Course
+                    </button>
+                  </span>
+                ) : null}
               </span>
               <Link class="button button-secondary" to="/">
                 Return to List
@@ -69,11 +83,10 @@ export default class CourseDetail extends Component {
           <div class="grid-66">
             <div class="course--header">
               <h4 class="course--label">Course</h4>
-              {/* course title from props */}
               <h3 class="course--title">{title}</h3>
               <p>
                 {/* course creator from props */}
-                By
+                By {`${author.firstName} ${author.lastName}`}
               </p>
             </div>
             <div class="course--description">
