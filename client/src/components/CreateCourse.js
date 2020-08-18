@@ -13,7 +13,18 @@ export default class CreateCourse extends Component {
     }
   }
 
-  submit = (e) => {}
+  submit = () => {
+    const { addCourse, history, user } = this.props
+    addCourse(this.state, user.id, user.email, user.password)
+      .then(() => {
+        history.push("/")
+      })
+      .catch((error) => {
+        this.setState({
+          error: error,
+        })
+      })
+  }
 
   change = (event) => {
     const { name, value } = event.target
@@ -36,7 +47,7 @@ export default class CreateCourse extends Component {
             <div className="bounds course--detail">
               <h1>Create Course</h1>
               <div>
-                <div>
+                {/* <div>
                   <h2 className="validation--errors--label">
                     Validation errors
                   </h2>
@@ -46,7 +57,7 @@ export default class CreateCourse extends Component {
                       <li>Please provide a value for "Description"</li>
                     </ul>
                   </div>
-                </div>
+                </div> */}
                 <div className="grid-66">
                   <div className="course--header">
                     <h4 className="course--label">Course</h4>
@@ -58,6 +69,7 @@ export default class CreateCourse extends Component {
                         className="input-title course--title--input"
                         placeholder="Course title..."
                         value={title}
+                        onChange={this.change}
                       />
                     </div>
 
@@ -69,6 +81,8 @@ export default class CreateCourse extends Component {
                         id="description"
                         name="description"
                         placeholder="Course description..."
+                        onChange={this.change}
+                        value={description}
                       ></textarea>
                     </div>
                   </div>
@@ -85,7 +99,8 @@ export default class CreateCourse extends Component {
                             type="text"
                             className="course--time--input"
                             placeholder="Hours"
-                            value=""
+                            value={estimatedTime}
+                            onChange={this.change}
                           />
                         </div>
                       </li>
@@ -96,6 +111,8 @@ export default class CreateCourse extends Component {
                             id="materialsNeeded"
                             name="materialsNeeded"
                             placeholder="List materials..."
+                            value={materialsNeeded}
+                            onChange={this.change}
                           ></textarea>
                         </div>
                       </li>

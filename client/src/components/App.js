@@ -71,7 +71,18 @@ export default class App extends Component {
               <Courses user={user} getCourses={service.getCourses} />
             )}
           />
-          <Route exact path="/courses/create" component={CreateCourse} />
+          <Route
+            exact
+            path="/courses/create"
+            render={({ match, history }) => (
+              <CreateCourse
+                addCourse={service.addCourse}
+                match={match}
+                history={history}
+                user={user}
+              />
+            )}
+          />
           <Route
             exact
             path="/courses/:id"

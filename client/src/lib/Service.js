@@ -77,7 +77,6 @@ export default class Service {
    * @param {String} password - authenticated user email for Basic Auth
    */
   static async deleteCourse(id, emailAddress, password) {
-    console.log("deleteCourse called")
     const response = await Service.request(
       `http://localhost:5000/api/courses/${id}`,
       "DELETE",
@@ -91,6 +90,56 @@ export default class Service {
       return Promise.reject(errors)
     } else {
       throw new Error("Something went wrong")
+    }
+  }
+
+  /**
+   * Make a POST request to add a course to the database
+   * @param {Object} payload - object containing table columns
+   * @param {String} emailAddress - authenticated user email
+   * @param {String} password - authenticated user pass
+   * @return {Promise} on success, with message on 401 status, with errors on reject
+   */
+  static async addCourse(payload, userId, emailAddress, password) {
+    payload.userId = userId
+    console.log(payload, userId, emailAddress, password)
+    const response = await Service.request(
+      "http://localhost:5000/api/courses",
+      "POST",
+      payload,
+      { emailAddress, password }
+    )
+    if (response.status === 201) {
+      return Promise.resolve()
+    } else if (response.status === 401 || response.status === 400) {
+      const errors = await response.json().then((data) => data.message)
+      return Promise.reject(errors)
+    } else {
+      throw new Error("Course could not be added")
+    }
+  }
+
+  /**
+   * Make a PUT request to modify a course to the database
+   * @param {Object} payload - object containing table columns
+   * @param {*} emailAddress - authenticated user email
+   * @param {*} password - authenticated user pass
+   * @return {Promise} on success, with message on 401 status, with errors on reject
+   */
+  static async editCourse(payload, emailAddress, password) {
+    const response = await Service.request(
+      "http://localhost:5000/api/courses",
+      "POST",
+      payload,
+      { emailAddress, password }
+    )
+    if (response.status === 204) {
+      return Promise.resolve()
+    } else if (response.status === 401) {
+      const errors = await response.json().then((data) => data.message)
+      return Promise.reject(errors)
+    } else {
+      throw new Error("Course could not be modified")
     }
   }
 
