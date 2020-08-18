@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom"
 
 const Header = ({ user }) => {
   return (
-    <div class="header">
-      <div class="bounds">
+    <div className="header">
+      <div className="bounds">
         <NavLink to="/">
-          <h1 class="header--logo">Courses</h1>
+          <h1 className="header--logo">Courses</h1>
         </NavLink>
         <nav>
           {user ? (
@@ -16,10 +16,10 @@ const Header = ({ user }) => {
             </div>
           ) : (
             <div>
-              <NavLink class="signup" to="/signup">
+              <NavLink className="signup" to="/signup">
                 Sign Up
               </NavLink>
-              <NavLink class="signin" to="/signin">
+              <NavLink className="signin" to="/signin">
                 Sign In
               </NavLink>
             </div>

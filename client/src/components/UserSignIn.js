@@ -44,8 +44,8 @@ export default class UserSignIn extends Component {
         submit={this.submit}
         elements={() => (
           <Fragment>
-            <div class="bounds">
-              <div class="grid-33 centered signin">
+            <div className="bounds">
+              <div className="grid-33 centered signin">
                 <h1>Sign In</h1>
                 <h3>{error}</h3>
                 <div>
@@ -55,7 +55,6 @@ export default class UserSignIn extends Component {
                       id="emailAddress"
                       name="emailAddress"
                       type="text"
-                      class=""
                       placeholder="Email Address"
                       value={emailAddress}
                     />
@@ -66,17 +65,16 @@ export default class UserSignIn extends Component {
                       id="password"
                       name="password"
                       type="password"
-                      class=""
                       placeholder="Password"
                       value={password}
                     />
                   </div>
-                  <div class="grid-100 pad-bottom">
-                    <button class="button" type="submit">
+                  <div className="grid-100 pad-bottom">
+                    <button className="button" type="submit">
                       Sign In
                     </button>
                     <button
-                      class="button button-secondary"
+                      className="button button-secondary"
                       onClick={this.cancel}
                     >
                       Cancel

@@ -113,6 +113,8 @@ export default class App extends Component {
               <UpdateCourse match={match} getCourse={service.getCourse} />
             )}
           />
+          {/* This route causes a warning in the console: make sure to deal with it
+          before submitting the project */}
           <Route
             exact
             path="/signout"

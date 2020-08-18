@@ -42,7 +42,7 @@ export default class UpdateCourse extends Component {
     const { title, description, estimatedTime, materialsNeeded } = this.state
     return (
       <div>
-        <div class="bounds course--detail">
+        <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
             <Form
@@ -50,28 +50,28 @@ export default class UpdateCourse extends Component {
               submit={this.submit}
               elements={() => (
                 <Fragment>
-                  <div class="grid-66">
-                    <div class="course--header">
-                      <h4 class="course--label">Course</h4>
+                  <div className="grid-66">
+                    <div className="course--header">
+                      <h4 className="course--label">Course</h4>
                       <div>
                         <input
                           onChange={this.handleChange}
                           id="title"
                           name="title"
                           type="text"
-                          class="input-title course--title--input"
+                          className="input-title course--title--input"
                           value={title}
                         />
                         {/* course creator name */}
                         <p>By</p>
                       </div>
-                      <div class="course--description">
+                      <div className="course--description">
                         <div>
                           <textarea
                             onChange={this.handleChange}
                             id="description"
                             name="description"
-                            class="course--description"
+                            className="course--description"
                             value={description}
                           ></textarea>
                         </div>
@@ -79,10 +79,10 @@ export default class UpdateCourse extends Component {
                     </div>
                   </div>
 
-                  <div class="grid-25 grid-right">
-                    <div class="course--stats">
-                      <ul class="course--stats--list">
-                        <li class="course--stats--list--item">
+                  <div className="grid-25 grid-right">
+                    <div className="course--stats">
+                      <ul className="course--stats--list">
+                        <li className="course--stats--list--item">
                           <h4>Estimated Time</h4>
                           <div>
                             <input
@@ -90,13 +90,13 @@ export default class UpdateCourse extends Component {
                               id="estimatedTime"
                               name="estimatedTime"
                               type="text"
-                              class="course--time--input"
+                              className="course--time--input"
                               placeholder="Hours"
                               value={estimatedTime}
                             />
                           </div>
                         </li>
-                        <li class="course--stats--list--item">
+                        <li className="course--stats--list--item">
                           <h4>Materials Needed</h4>
                           <div>
                             <textarea
@@ -111,12 +111,12 @@ export default class UpdateCourse extends Component {
                       </ul>
                     </div>
                   </div>
-                  <div class="grid-100 pad-bottom">
-                    <button class="button" type="submit">
+                  <div className="grid-100 pad-bottom">
+                    <button className="button" type="submit">
                       Update Course
                     </button>
                     <button
-                      class="button button-secondary"
+                      className="button button-secondary"
                       onClick={this.cancel}
                     >
                       Cancel
