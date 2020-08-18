@@ -66,10 +66,6 @@ export default class Service {
     }
   }
 
-  static async addCourse() {}
-
-  static async updateCourse() {}
-
   /**
    * Send DELETE request to delete a course
    * @param {Number} id - PK id of course being deleted
@@ -126,7 +122,7 @@ export default class Service {
    * @param {*} password - authenticated user pass
    * @return {Promise} on success, with message on 401 status, with errors on reject
    */
-  static async editCourse(payload, emailAddress, password) {
+  static async updateCourse(payload, emailAddress, password) {
     const response = await Service.request(
       "http://localhost:5000/api/courses",
       "POST",
