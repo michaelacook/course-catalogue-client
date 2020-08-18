@@ -59,6 +59,8 @@ export default class CourseDetail extends Component {
           <div class="bounds">
             <div class="grid-100">
               <span>
+              {/* Don't show update and delete buttons unless the currently 
+              authenticated user is the author (owner) of the course */}
                 {author.id === user.id ? (
                   <span>
                     <Link
@@ -85,8 +87,7 @@ export default class CourseDetail extends Component {
               <h4 class="course--label">Course</h4>
               <h3 class="course--title">{title}</h3>
               <p>
-                {/* course creator from props */}
-                By {`${author.firstName} ${author.lastName}`}
+                By {author.firstName} {author.lastName}
               </p>
             </div>
             <div class="course--description">

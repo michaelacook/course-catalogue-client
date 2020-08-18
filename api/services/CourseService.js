@@ -1,4 +1,5 @@
 const { Course } = require("../models/index")
+const { User } = require("../models/index")
 
 module.exports = class CourseService {
   /**
@@ -38,6 +39,15 @@ module.exports = class CourseService {
   async getCourses() {
     await Course.sync()
     const courses = await Course.findAndCountAll({
+      include: [
+        {
+          model: User, 
+          as: "author",
+          attributes: [
+            'id', 'firstName', 'lastName'
+          ],
+        }
+      ],
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
@@ -56,6 +66,15 @@ module.exports = class CourseService {
   async getCourse(id) {
     await Course.sync()
     const course = await Course.findByPk(id, {
+      include: [
+        {
+          model: User, 
+          as: "author",
+          attributes: [
+            'id', 'firstName', 'lastName'
+          ],
+        }
+      ],
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
@@ -88,9 +107,15 @@ module.exports = class CourseService {
    * @return {Void}
    */
   async deleteCourse(id) {
-    await Course.sync()
-    const course = await Course.findByPk(id)
-    await course.destroy()
+    try {
+      console.log(id)
+      await Course.sync()
+      const course = await Course.findByPk(id)
+      await course.destroy()
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
   }
 
   /**
