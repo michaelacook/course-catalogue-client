@@ -51,7 +51,7 @@ module.exports = class CourseController {
         })
       }
       const id = await CourseService.addCourse(req.body)
-      return res.status(201).location(`/api/courses/${id}`).end()
+      return res.status(201).location(`/api/courses/${id}`).json({ id })
     } catch (error) {
       next(error)
     }

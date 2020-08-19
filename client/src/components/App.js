@@ -121,7 +121,7 @@ export default class App extends Component {
           <Route
             path="/courses/:id/update"
             render={({ match }) => (
-              <UpdateCourse match={match} getCourse={service.getCourse} />
+              <UpdateCourse match={match} getCourse={service.getCourse} updateCourse={service.updateCourse} />
             )}
           />
           {/* This route causes a warning in the console: make sure to deal with it

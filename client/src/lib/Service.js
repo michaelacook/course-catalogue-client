@@ -98,7 +98,6 @@ export default class Service {
    */
   static async addCourse(payload, userId, emailAddress, password) {
     payload.userId = userId
-    console.log(payload, userId, emailAddress, password)
     const response = await Service.request(
       "http://localhost:5000/api/courses",
       "POST",
@@ -106,7 +105,8 @@ export default class Service {
       { emailAddress, password }
     )
     if (response.status === 201) {
-      return Promise.resolve()
+      const courseId = await response.json().then((data) => data.id)
+      return Promise.resolve(courseId)
     } else if (response.status === 401 || response.status === 400) {
       const errors = await response.json().then((data) => data.message)
       return Promise.reject(errors)

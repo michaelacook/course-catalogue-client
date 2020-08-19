@@ -14,6 +14,7 @@ module.exports = class CourseService {
     materialsNeeded,
     userId,
   }) {
+    console.log(title, description, estimatedTime, materialsNeeded, userId)
     let id
     await Course.sync()
     await Course.create({
@@ -27,6 +28,7 @@ module.exports = class CourseService {
         id = course.id
       })
       .catch((err) => {
+        console.log(err)
         return Promise.reject(err)
       })
     if (id) return id

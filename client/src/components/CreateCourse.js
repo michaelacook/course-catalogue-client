@@ -13,11 +13,14 @@ export default class CreateCourse extends Component {
     }
   }
 
+  /**
+   * Add a course and then redirect the user to the course details page for the newly added course
+   */
   submit = () => {
     const { addCourse, history, user } = this.props
     addCourse(this.state, user.id, user.email, user.password)
-      .then(() => {
-        history.push("/")
+      .then((id) => {
+        history.push(`/courses/${id}`)
       })
       .catch((error) => {
         this.setState({
