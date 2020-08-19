@@ -24,10 +24,24 @@ export default class UpdateCourse extends Component {
     this.props.history.goBack()
   }
 
-  submit = () => {}
+  submit = () => {
+    const { match, history, updateCourse, user } = this.props
+    const id = match.params.id
+    console.log(this.state)
+    updateCourse(this.state, user.id, id, user.email, user.password)
+      .then(() => {
+        history.push(`/courses/${id}`)
+      })
+      .catch((error) => {
+        this.setState({
+          error: error,
+        })
+      })
+  }
 
   componentDidMount() {
-    const id = this.props.match.params.id
+    const { match } = this.props
+    const id = match.params.id
     this.props.getCourse(id).then((data) => {
       this.setState({
         title: data.course.title,

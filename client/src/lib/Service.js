@@ -122,17 +122,20 @@ export default class Service {
    * @param {*} password - authenticated user pass
    * @return {Promise} on success, with message on 401 status, with errors on reject
    */
-  static async updateCourse(payload, emailAddress, password) {
+  static async updateCourse(payload, userId, courseId, emailAddress, password) {
+    payload.userId = userId
     const response = await Service.request(
-      "http://localhost:5000/api/courses",
-      "POST",
+      `http://localhost:5000/api/courses/${courseId}`,
+      "PUT",
       payload,
       { emailAddress, password }
     )
     if (response.status === 204) {
       return Promise.resolve()
     } else if (response.status === 401) {
-      const errors = await response.json().then((data) => data.message)
+      return Promise.reject(["Not authorized."])
+    } else if (response.status === 400) {
+      const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
     } else {
       throw new Error("Course could not be modified")

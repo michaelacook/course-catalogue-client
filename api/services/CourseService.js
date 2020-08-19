@@ -14,7 +14,6 @@ module.exports = class CourseService {
     materialsNeeded,
     userId,
   }) {
-    console.log(title, description, estimatedTime, materialsNeeded, userId)
     let id
     await Course.sync()
     await Course.create({
