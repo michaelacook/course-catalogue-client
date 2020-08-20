@@ -10,6 +10,8 @@ import UserSignUp from "./UserSignUp"
 import UserSignIn from "./UserSignIn"
 import Service from "../lib/Service"
 import UserSignOut from "./UserSignOut"
+import PrivateRoute from "./PrivateRoute"
+import Provider from "./provider"
 
 export default class App extends Component {
   constructor(props) {
@@ -61,84 +63,86 @@ export default class App extends Component {
   render() {
     const { service, user } = this.state
     return (
-      <BrowserRouter>
-        <Route path="/" render={() => <Header user={user} />} />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Courses user={user} getCourses={service.getCourses} />
-            )}
-          />
-          <Route
-            exact
-            path="/courses/create"
-            render={({ match, history }) => (
-              <CreateCourse
-                addCourse={service.addCourse}
-                match={match}
-                history={history}
-                user={user}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/courses/:id"
-            render={({ match, history }) => (
-              <CourseDetail
-                match={match}
-                history={history}
-                getCourse={service.getCourse}
-                deleteCourse={service.deleteCourse}
-                user={user}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={({ match, history }) => (
-              <UserSignUp
-                match={match}
-                history={history}
-                signup={this.signUp}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/signin"
-            render={({ match, history }) => (
-              <UserSignIn
-                match={match}
-                history={history}
-                signIn={this.signIn}
-              />
-            )}
-          />
-          <Route
-            path="/courses/:id/update"
-            render={({ match, history }) => (
-              <UpdateCourse
-                match={match}
-                history={history}
-                getCourse={service.getCourse}
-                updateCourse={service.updateCourse}
-                user={user}
-              />
-            )}
-          />
-          {/* This route causes a warning in the console: make sure to deal with it
+      <Provider
+        value={{
+          state: this.state,
+          methods: {
+            signIn: this.signIn,
+            signOut: this.signOut,
+          },
+        }}
+      >
+        <BrowserRouter>
+          <Route path="/" render={() => <Header user={user} />} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Courses user={user} getCourses={service.getCourses} />
+              )}
+            />
+            <PrivateRoute exact path="/courses/create" user={user}>
+              <CreateCourse addCourse={service.addCourse} user={user} />
+            </PrivateRoute>
+
+            <Route
+              exact
+              path="/courses/:id"
+              render={({ match, history }) => (
+                <CourseDetail
+                  match={match}
+                  history={history}
+                  getCourse={service.getCourse}
+                  deleteCourse={service.deleteCourse}
+                  user={user}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/signup"
+              render={({ match, history }) => (
+                <UserSignUp
+                  match={match}
+                  history={history}
+                  signup={this.signUp}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/signin"
+              render={({ match, history }) => (
+                <UserSignIn
+                  match={match}
+                  history={history}
+                  signIn={this.signIn}
+                />
+              )}
+            />
+            <Route
+              path="/courses/:id/update"
+              render={({ match, history }) => (
+                <UpdateCourse
+                  match={match}
+                  history={history}
+                  getCourse={service.getCourse}
+                  updateCourse={service.updateCourse}
+                  user={user}
+                />
+              )}
+            />
+            {/* This route causes a warning in the console: make sure to deal with it
           before submitting the project */}
-          <Route
-            exact
-            path="/signout"
-            render={() => <UserSignOut signOut={this.signOut} />}
-          />
-        </Switch>
-      </BrowserRouter>
+            <Route
+              exact
+              path="/signout"
+              render={() => <UserSignOut signOut={this.signOut} />}
+            />
+          </Switch>
+        </BrowserRouter>
+      </Provider>
     )
   }
 }
