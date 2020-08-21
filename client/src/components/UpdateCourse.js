@@ -27,9 +27,7 @@ export default function UpdateCourse() {
         history.push(`/courses/${id}`)
       })
       .catch((error) => {
-        this.setState({
-          error: error,
-        })
+        setError(error)
       })
   }
 

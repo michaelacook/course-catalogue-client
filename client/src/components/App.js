@@ -85,10 +85,9 @@ export default function App() {
               <UserSignIn match={match} history={history} signIn={signIn} />
             )}
           />
-          <Route
-            path="/courses/:id/update"
-            component={UpdateCourse}
-          />
+          <PrivateRoute exact path="/courses/:id/update" user={user}>
+            <UpdateCourse />
+          </PrivateRoute>
           {/* This route causes a warning in the console: make sure to deal with it
           before submitting the project */}
           <Route
