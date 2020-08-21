@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useContext } from "react"
 import { NavLink } from "react-router-dom"
+import Context from "./provider"
 
-const Header = ({ user }) => {
+export default function Header() {
+  const { user } = useContext(Context)
   return (
     <div className="header">
       <div className="bounds">
@@ -29,5 +31,3 @@ const Header = ({ user }) => {
     </div>
   )
 }
-
-export default Header

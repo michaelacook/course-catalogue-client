@@ -1,6 +1,7 @@
-// set up and export a Provider component
+// set up and export context
 
 import React from "react"
-const ApplicationContext = React.createContext()
-const { Provider } = ApplicationContext;
-export default Provider
+const Context = React.createContext()
+
+export const { Provider } = Context
+export default Context
