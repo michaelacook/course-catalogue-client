@@ -11,7 +11,7 @@ export default ({ user, children, componentProps, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/signin",
               state: { from: location },
             }}
           />

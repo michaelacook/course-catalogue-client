@@ -61,9 +61,9 @@ export default function App() {
       }}
     >
       <BrowserRouter>
-        <Route path="/" render={() => <Header user={user} />} />
+        <Route path="/" component={Header} />
         <Switch>
-          <Route exact path="/" render={() => <Courses />} />
+          <Route exact path="/" component={Courses} />
           <PrivateRoute exact path="/courses/create" user={user}>
             <CreateCourse />
           </PrivateRoute>
@@ -71,7 +71,7 @@ export default function App() {
           <Route
             exact
             path="/courses/:id"
-            render={({ match, history }) => <CourseDetail />}
+            component={CourseDetail}
           />
           <Route
             exact
@@ -87,7 +87,7 @@ export default function App() {
           />
           <Route
             path="/courses/:id/update"
-            render={({ match, history }) => <UpdateCourse />}
+            component={UpdateCourse}
           />
           {/* This route causes a warning in the console: make sure to deal with it
           before submitting the project */}
