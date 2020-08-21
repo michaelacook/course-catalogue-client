@@ -1,134 +1,120 @@
-import React, { Component, Fragment } from "react"
-import { Link } from "react-router-dom"
+import React, { Fragment, useState, useContext } from "react"
+import { Link, useHistory } from "react-router-dom"
 import Form from "./Form"
+import Context from "./provider"
 
-export default class UserSignUp extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      firstName: "",
-      lastName: "",
-      emailAddress: "",
-      password: "",
-      confirmPassword: "",
+export default function UserSignUp() {
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [emailAddress, setEmailAddress] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [errors, setErrors] = useState("")
+  const [passwordsNotMatch, setPasswordsNotMatch] = useState(true)
+
+  const history = useHistory()
+  const { service } = useContext(Context)
+
+  function submit() {
+    if (password !== confirmPassword) {
+      setPasswordsNotMatch(false)
+      return null
     }
-  }
-
-  submit = () => {
-    const { history } = this.props
-    const { firstName, lastName, emailAddress, password } = this.state
-    this.props
+    service
       .signup({ firstName, lastName, emailAddress, password })
       .then(() => history.push("/signin"))
       .catch((errors) => {
-        this.setState({
-          errors: errors,
-        })
+        setErrors(errors)
       })
   }
 
-  cancel = () => {
-    this.props.history.push("/")
+  function cancel(e) {
+    e.preventDefault()
+    history.push("/")
   }
 
-  change = (event) => {
-    const { name, value } = event.target
-    this.setState({
-      [name]: value,
-    })
-  }
-
-  render() {
-    const {
-      firstName,
-      lastName,
-      emailAddress,
-      password,
-      confirmPassword,
-    } = this.state
-    return (
-      <Form
-        submit={this.submit}
-        elements={() => (
-          <Fragment>
-            <div className="bounds">
-              <div className="grid-33 centered signin">
-                <h1>Sign Up</h1>
+  return (
+    <Form
+      submit={submit}
+      elements={() => (
+        <Fragment>
+          <div className="bounds">
+            <div className="grid-33 centered signin">
+              <h1>Sign Up</h1>
+              <div>
                 <div>
-                  <div>
-                    <input
-                      onChange={this.change}
-                      id="firstName"
-                      name="firstName"
-                      type="text"
-                      placeholder="First Name"
-                      value={firstName}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      onChange={this.change}
-                      id="lastName"
-                      name="lastName"
-                      type="text"
-                      placeholder="Last Name"
-                      value={lastName}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      onChange={this.change}
-                      id="emailAddress"
-                      name="emailAddress"
-                      type="text"
-                      placeholder="Email Address"
-                      value={emailAddress}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      onChange={this.change}
-                      id="password"
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      onChange={this.change}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      type="password"
-                      placeholder="Confirm Password"
-                      value={confirmPassword}
-                    />
-                  </div>
-                </div>
-                <div className="grid-100 pad-bottom">
-                  <button className="button" type="submit">
-                    Sign Up
-                  </button>
-                  <button
-                    className="button button-secondary"
-                    onClick={this.cancel}
-                  >
-                    Cancel
-                  </button>
+                  <input
+                    onChange={(e) => setFirstName(e.target.value)}
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                  />
                 </div>
                 <div>
-                  <p>&nbsp;</p>
-                  <p>
-                    Already have a user account?
-                    <a href="sign-in.html"> Click here</a> to sign in!
-                  </p>
+                  <input
+                    onChange={(e) => setLastName(e.target.value)}
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                  />
+                </div>
+                <div>
+                  <input
+                    onChange={(e) => setEmailAddress(e.target.value)}
+                    id="emailAddress"
+                    name="emailAddress"
+                    type="text"
+                    placeholder="Email Address"
+                    value={emailAddress}
+                  />
+                </div>
+                <div>
+                  {!passwordsNotMatch ? (
+                    <span>Your password does not match.</span>
+                  ) : null}
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                  />
+                </div>
+                <div>
+                  <input
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                  />
                 </div>
               </div>
+              <div className="grid-100 pad-bottom">
+                <button className="button" type="submit">
+                  Sign Up
+                </button>
+                <button className="button button-secondary" onClick={cancel}>
+                  Cancel
+                </button>
+              </div>
+              <div>
+                <p>&nbsp;</p>
+                <p>
+                  Already have a user account?
+                  <Link to="/signin"> Click here</Link> to sign in!
+                </p>
+              </div>
             </div>
-          </Fragment>
-        )}
-      />
-    )
-  }
+          </div>
+        </Fragment>
+      )}
+    />
+  )
 }

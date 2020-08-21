@@ -9,7 +9,7 @@ export default function UserSignIn() {
   const [error, setError] = useState("")
 
   const history = useHistory()
-  const { from } = history.location.state
+  const { from } = history.location.state || { from: { pathname: "/" } }
   const {
     user,
     methods: { signIn },
@@ -18,7 +18,7 @@ export default function UserSignIn() {
   function submit() {
     signIn(emailAddress, password)
       .then(() => {
-        history.push(from || { from: { pathname: "/" } })
+        history.push(from)
       })
       .catch((error) => {
         setError(error)
