@@ -2,6 +2,7 @@ import React, { Fragment, useState, useContext } from "react"
 import { Link, useHistory } from "react-router-dom"
 import Form from "./Form"
 import Context from "./provider"
+import ValidationErrors from "./ValidationErrors"
 
 export default function UserSignUp() {
   const [firstName, setFirstName] = useState("")
@@ -21,7 +22,7 @@ export default function UserSignUp() {
       return null
     }
     service
-      .signup({ firstName, lastName, emailAddress, password })
+      .signUp({ firstName, lastName, emailAddress, password })
       .then(() => history.push("/signin"))
       .catch((errors) => {
         setErrors(errors)
@@ -40,6 +41,7 @@ export default function UserSignUp() {
         <Fragment>
           <div className="bounds">
             <div className="grid-33 centered signin">
+              {errors ? <ValidationErrors errors={errors} /> : null}
               <h1>Sign Up</h1>
               <div>
                 <div>
