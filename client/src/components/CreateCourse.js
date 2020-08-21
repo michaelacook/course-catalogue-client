@@ -2,13 +2,14 @@ import React, { Fragment, useContext, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import Context from "./provider"
 import Form from "./Form"
+import ValidationErrors from "./ValidationErrors"
 
 export default function CreateCourse() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [estimatedTime, setEstimatedTime] = useState("")
   const [materialsNeeded, setMaterialsNeeded] = useState("")
-  const [error, setError] = useState("")
+  const [errors, setErrors] = useState("")
 
   const history = useHistory()
   const { id } = useParams()
@@ -35,7 +36,7 @@ export default function CreateCourse() {
         history.push(`/courses/${id}`)
       })
       .catch((error) => {
-        setError(error)
+        setErrors(error)
       })
   }
 
@@ -54,6 +55,7 @@ export default function CreateCourse() {
             <h1>Create Course</h1>
             <div>
               <div className="grid-66">
+                {errors ? <ValidationErrors errors={errors} /> : null}
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                   <div>

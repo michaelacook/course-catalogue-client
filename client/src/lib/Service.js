@@ -108,7 +108,7 @@ export default class Service {
       const courseId = await response.json().then((data) => data.id)
       return Promise.resolve(courseId)
     } else if (response.status === 401 || response.status === 400) {
-      const errors = await response.json().then((data) => data.message)
+      const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
     } else {
       throw new Error("Course could not be added")
