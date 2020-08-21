@@ -68,15 +68,11 @@ export default function App() {
             <CreateCourse />
           </PrivateRoute>
 
-          <Route
-            exact
-            path="/courses/:id"
-            component={CourseDetail}
-          />
+          <Route exact path="/courses/:id" component={CourseDetail} />
           <Route
             exact
             path="/signup"
-            render={({ match, history }) => <UserSignUp />}
+            render={({ match, history, location }) => <UserSignUp />}
           />
           <Route
             exact
