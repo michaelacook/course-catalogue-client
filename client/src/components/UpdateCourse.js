@@ -2,6 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import Context from "./provider"
 import Form from "./Form"
+import ValidationErrors from "./ValidationErrors"
 
 export default function UpdateCourse() {
   const [title, setTitle] = useState("")
@@ -9,7 +10,7 @@ export default function UpdateCourse() {
   const [estimatedTime, setEstimatedTime] = useState("")
   const [materialsNeeded, setMaterialsNeeded] = useState("")
   const [author, setAuthor] = useState("")
-  const [error, setError] = useState("")
+  const [errors, setErrors] = useState("")
 
   const { id } = useParams()
   const history = useHistory()
@@ -22,13 +23,14 @@ export default function UpdateCourse() {
   }
 
   function submit() {
-    service
-      .updateCourse(this.state, user.id, id, user.email, user.password)
+    service.updateCourse({
+      title, description, estimatedTime, materialsNeeded
+    }, user.id, id, user.email, user.password)
       .then(() => {
         history.push(`/courses/${id}`)
       })
       .catch((error) => {
-        setError(error)
+        setErrors(error)
       })
   }
 
@@ -54,6 +56,7 @@ export default function UpdateCourse() {
             elements={() => (
               <Fragment>
                 <div className="grid-66">
+                  {errors ? <ValidationErrors errors={errors} /> : null}
                   <div className="course--header">
                     <h4 className="course--label">Course</h4>
                     <div>
@@ -66,9 +69,7 @@ export default function UpdateCourse() {
                         value={title}
                       />
                       {/* course creator name */}
-                      <p>
-                        By {author.firstName} {author.lastName}
-                      </p>
+                      <p>By {author.firstName} {author.lastName}</p>
                     </div>
                     <div className="course--description">
                       <div>
@@ -120,7 +121,10 @@ export default function UpdateCourse() {
                   <button className="button" type="submit">
                     Update Course
                   </button>
-                  <button className="button button-secondary" onClick={cancel}>
+                  <button
+                    className="button button-secondary"
+                    onClick={cancel}
+                  >
                     Cancel
                   </button>
                 </div>
