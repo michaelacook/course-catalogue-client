@@ -109,8 +109,6 @@ export default class Service {
     if (response.status === 201) {
       const courseId = await response.json().then((data) => data.id)
       return Promise.resolve(courseId)
-    } else if (response.status === 401) {
-      throw new Error("Not authorized.")
     } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
@@ -136,8 +134,6 @@ export default class Service {
     )
     if (response.status === 204) {
       return Promise.resolve()
-    } else if (response.status === 401) {
-      throw new Error("Not authorized.")
     } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
