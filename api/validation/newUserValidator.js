@@ -11,14 +11,12 @@ module.exports = [
       checkNull: true,
       checkFalsy: true,
     })
-    .isAlpha()
     .withMessage("Please provide a value for first name."),
   body("lastName")
     .exists({
       checkNull: true,
       checkFalsy: true,
     })
-    .isAlpha()
     .withMessage("Please provide a value for last name."),
   body("emailAddress")
     .exists({
@@ -32,7 +30,6 @@ module.exports = [
       checkNull: true,
       checkFalsy: true,
     })
-    .isAlphanumeric()
     .isLength({
       min: 6,
       max: undefined,
