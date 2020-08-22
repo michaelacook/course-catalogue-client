@@ -76,8 +76,6 @@ export default function App() {
           <PrivateRoute exact path="/courses/:id/update" user={user}>
             <UpdateCourse />
           </PrivateRoute>
-          {/* This route causes a warning in the console: make sure to deal with it
-          before submitting the project */}
           <Route
             exact
             path="/signout"

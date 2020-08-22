@@ -1,3 +1,4 @@
+import baseURL from "../config/baseURL.js"
 import ServerError from "../errors/ServerError"
 
 /**
@@ -44,7 +45,7 @@ export default class Service {
    * @return {Object} data on response status 200
    */
   static async getCourses() {
-    const response = await Service.request("http://localhost:5000/api/courses")
+    const response = await Service.request(`${baseURL}/api/courses`)
     if (response.status === 200) {
       return response.json().then((data) => data)
     } else if (response.status === 400 || response.status === 500) {
@@ -59,7 +60,7 @@ export default class Service {
    */
   static async getCourse(id) {
     const response = await Service.request(
-      `http://localhost:5000/api/courses/${id}`
+      `${baseURL}/api/courses/${id}`
     )
     if (response.status === 200) {
       return response.json().then((data) => data)
@@ -76,7 +77,7 @@ export default class Service {
    */
   static async deleteCourse(id, emailAddress, password) {
     const response = await Service.request(
-      `http://localhost:5000/api/courses/${id}`,
+      `${baseURL}/api/courses/${id}`,
       "DELETE",
       null,
       { emailAddress, password }
@@ -100,7 +101,7 @@ export default class Service {
   static async addCourse(payload, userId, emailAddress, password) {
     payload.userId = userId
     const response = await Service.request(
-      "http://localhost:5000/api/courses",
+      `${baseURL}/api/courses`,
       "POST",
       payload,
       { emailAddress, password }
@@ -128,7 +129,7 @@ export default class Service {
   static async updateCourse(payload, userId, courseId, emailAddress, password) {
     payload.userId = userId
     const response = await Service.request(
-      `http://localhost:5000/api/courses/${courseId}`,
+      `${baseURL}/api/courses/${courseId}`,
       "PUT",
       payload,
       { emailAddress, password }
@@ -153,7 +154,7 @@ export default class Service {
    */
   static async signUp(body) {
     const response = await Service.request(
-      "http://localhost:5000/api/users",
+      `${baseURL}/api/users`,
       "POST",
       body
     )
@@ -176,7 +177,7 @@ export default class Service {
    */
   static async authenticate(emailAddress, password) {
     const response = await Service.request(
-      "http://localhost:5000/api/users",
+      `${baseURL}/api/users`,
       "GET",
       null,
       { emailAddress, password }
