@@ -17,18 +17,24 @@ export default function CourseDetail() {
   const { user, service } = useContext(Context)
 
   useEffect(() => {
-    service.getCourse(id).then((data) => {
-      setTitle(data.course.title)
-      setDescription(data.course.description)
-      setEstimatedTime(data.course.estimatedTime)
-      setMaterialsNeeded(data.course.materialsNeeded)
-      setAuthor(data.course.author)
-    })
-    .catch(error => {
-      if (error.message === "Failed to fetch") {
-        setError("Check your internet connection and try again.")
-      }
-    })
+    service
+      .getCourse(id)
+      .then((data) => {
+        setTitle(data.course.title)
+        setDescription(data.course.description)
+        setEstimatedTime(data.course.estimatedTime)
+        setMaterialsNeeded(data.course.materialsNeeded)
+        setAuthor(data.course.author)
+      })
+      .catch((error) => {
+        if (error.message) {
+          if (error.message === "Failed to fetch") {
+            setError("Check your internet connection and try again.")
+          } else {
+            history.push("/error")
+          }
+        }
+      })
   }, [title, description, estimatedTime, materialsNeeded])
 
   function deleteCourse() {
@@ -40,7 +46,15 @@ export default function CourseDetail() {
           history.push("/")
         })
         .catch((error) => {
-          setError(error.message)
+          if (error.message) {
+            if (error.message === "Not authorized.") {
+              setError(error.message)
+            } else {
+              history.push("/error")
+            }
+          } else {
+            history.push("/error")
+          }
         })
     }
   }

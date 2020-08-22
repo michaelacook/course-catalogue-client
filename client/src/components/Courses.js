@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Context from "./provider"
 import CourseButton from "./CourseButton"
 
@@ -8,6 +8,7 @@ export default function Courses() {
   const [error, setError] = useState("")
   const { service } = useContext(Context)
   const { user } = useContext(Context)
+  const history = useHistory()
 
   useEffect(() => {
     service
@@ -16,9 +17,15 @@ export default function Courses() {
         setCourses(data.courses.rows)
       })
       .catch((error) => {
-        setError(
-          "You may not be connected to the internet. Check your connection and try again."
-        )
+        if (error.message) {
+          if (error.message === "Failed to fetch") {
+            setError("Check your internet connection and try again.")
+          } else {
+            history.push("/error")
+          }
+        } else {
+          history.push("/error")
+        }
       })
   }, courses)
 
@@ -33,7 +40,7 @@ export default function Courses() {
     <div className="bounds">
       {error ? (
         <div className="message">
-          <h2>{error}</h2>
+          <h2 className="warning">{error}</h2>
         </div>
       ) : null}
       {!courses.length && !error ? <h2>Loading...</h2> : coursesList}

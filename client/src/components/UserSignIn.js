@@ -16,19 +16,39 @@ export default function UserSignIn() {
   } = useContext(Context)
 
   function submit() {
+    // display a message if the user leaves out email, password or both
+    if (!emailAddress || !password) {
+      if (!emailAddress && password) {
+        setError("Please enter an email address.")
+      } else if (!password && emailAddress) {
+        setError("Please enter a password.")
+      } else if (!password && !emailAddress) {
+        setError("Please enter an email and a password.")
+      }
+      return
+    }
     signIn(emailAddress, password)
       .then(() => {
         history.push(from)
       })
       .catch((error) => {
-        if (error.message === "Failed to fetch") {
-          setError("Check your internet connection and try again.")
+        if (error.message) {
+          if (error.message === "Failed to fetch") {
+            setError("Check your internet connection and try again.")
+          } else {
+            console.log(error)
+            setError(error.message)
+          }
         } else {
-          // here you will redirect to an error page for server error
+          history.push("/error")
         }
       })
   }
 
+  /**
+   * Cancel and go to home page
+   * @param {Object} e - event
+   */
   function cancel(e) {
     e.preventDefault()
     history.push("/")

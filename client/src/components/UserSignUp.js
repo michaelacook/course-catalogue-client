@@ -17,7 +17,16 @@ export default function UserSignUp() {
   const history = useHistory()
   const { service } = useContext(Context)
 
+  /**
+   * Clear any errors in state
+   */
+  function clearErrors() {
+    setValidationErrors("")
+    setGeneralErrors("")
+  }
+
   function submit() {
+    clearErrors()
     if (password !== confirmPassword) {
       setPasswordsNotMatch(false)
       return null
@@ -30,7 +39,7 @@ export default function UserSignUp() {
           if (errors.message === "Failed to fetch") {
             setGeneralErrors("Check your internet connection and try again.")
           } else {
-            setGeneralErrors(errors.message)
+            history.push("/error")
           }
         } else if (Array.isArray(errors)) {
           setValidationErrors(errors)
@@ -50,7 +59,9 @@ export default function UserSignUp() {
         <Fragment>
           <div className="bounds">
             <div className="grid-33 centered signin">
-              {validationErrors ? <ValidationErrors errors={validationErrors} /> : null}
+              {validationErrors ? (
+                <ValidationErrors errors={validationErrors} />
+              ) : null}
               <h1>Sign Up</h1>
               <h3 className="warning">{generalErrors}</h3>
               <div>

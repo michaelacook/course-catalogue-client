@@ -18,12 +18,25 @@ export default function UpdateCourse() {
 
   const { user, service } = useContext(Context)
 
+  /**
+   * Clear any errors in state
+   */
+  function clearErrors() {
+    setValidationErrors("")
+    setGeneralErrors("")
+  }
+
+  /**
+   * Cancel and go back to last view
+   * @param {Object} e - event
+   */
   function cancel(e) {
     e.preventDefault()
     history.goBack()
   }
 
   function submit() {
+    clearErrors()
     service
       .updateCourse(
         {
@@ -44,8 +57,10 @@ export default function UpdateCourse() {
         if (errors.message) {
           if (errors.message === "Failed to fetch") {
             setGeneralErrors("Check your internet connection and try again.")
-          } else {
+          } else if (errors.message === "Not authorized.") {
             setGeneralErrors(errors.message)
+          } else {
+            history.push("/error")
           }
         } else if (Array.isArray(errors)) {
           setValidationErrors(errors)
@@ -67,7 +82,9 @@ export default function UpdateCourse() {
   return (
     <div>
       <div className="bounds course--detail">
-        {validationErrors ? <ValidationErrors errors={validationErrors} /> : null}
+        {validationErrors ? (
+          <ValidationErrors errors={validationErrors} />
+        ) : null}
         <h3 className="warning">{generalErrors}</h3>
         <h1>Update Course</h1>
         <div>

@@ -11,30 +11,36 @@ import UserSignIn from "./UserSignIn"
 import Service from "../lib/Service"
 import UserSignOut from "./UserSignOut"
 import PrivateRoute from "./PrivateRoute"
+import ServerError from "./ServerError"
 import NotFound from "./NotFound"
 import { Provider } from "./provider"
 
 export default function App() {
   const [user, setUser] = useState(Cookies.getJSON("user") || null)
-
   /**
    * Call Service.authenticate to send Authorization header and fetch user
    * On success, set global user state and persist user in a cookie
-   * The function does not perform any of it's own error handling. Errors are
-   * handled with .catch() where the function is called in UserSignIn
    * Caught error used to display to the user in the UserSignIn component
    * @param {String} emailAddress
    * @param {String} password
    */
   async function signIn(emailAddress, password) {
-    const { authenticate } = Service
-    const response = await authenticate(emailAddress, password)
-    const { user } = response
-    user.password = password
-    Cookies.set("user", JSON.stringify(user), {
-      expires: 28,
-    })
-    setUser(user)
+    try {
+      const { authenticate } = Service
+      const response = await authenticate(emailAddress, password)
+      const { user } = response
+      user.password = password
+      Cookies.set("user", JSON.stringify(user), {
+        expires: 28,
+      })
+      setUser(user)
+    } catch (error) {
+      if (error === "Access Denied.") {
+        throw new Error("Your username or password is incorrect.")
+      } else {
+        throw error
+      }
+    }
   }
 
   /**
@@ -65,20 +71,9 @@ export default function App() {
           <PrivateRoute exact path="/courses/create" user={user}>
             <CreateCourse />
           </PrivateRoute>
-
           <Route exact path="/courses/:id" component={CourseDetail} />
-          <Route
-            exact
-            path="/signup"
-            render={({ match, history, location }) => <UserSignUp />}
-          />
-          <Route
-            exact
-            path="/signin"
-            render={({ match, history }) => (
-              <UserSignIn match={match} history={history} signIn={signIn} />
-            )}
-          />
+          <Route exact path="/signup" component={UserSignUp} />
+          <Route exact path="/signin" component={UserSignIn} />
           <PrivateRoute exact path="/courses/:id/update" user={user}>
             <UpdateCourse />
           </PrivateRoute>
@@ -89,6 +84,7 @@ export default function App() {
             path="/signout"
             render={() => <UserSignOut signOut={signOut} />}
           />
+          <Route exact path="/error" component={ServerError} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

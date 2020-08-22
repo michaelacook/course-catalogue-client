@@ -84,8 +84,7 @@ export default class Service {
     if (response.status === 204) {
       return Promise.resolve()
     } else if (response.status === 401) {
-      const errors = await response.json().then((data) => data.message)
-      return Promise.reject(errors)
+      throw new Error("Not authorized.")
     } else if (response.status === 500) {
       throw ServerError
     }
@@ -109,7 +108,9 @@ export default class Service {
     if (response.status === 201) {
       const courseId = await response.json().then((data) => data.id)
       return Promise.resolve(courseId)
-    } else if (response.status === 401 || response.status === 400) {
+    } else if (response.status === 401) {
+      throw new Error("Not authorized.")
+    } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
     } else if (response.status === 500) {
@@ -135,7 +136,7 @@ export default class Service {
     if (response.status === 204) {
       return Promise.resolve()
     } else if (response.status === 401) {
-      return Promise.reject(["Not authorized."])
+      throw new Error("Not authorized.")
     } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)

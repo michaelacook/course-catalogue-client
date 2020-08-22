@@ -9,7 +9,8 @@ export default function CreateCourse() {
   const [description, setDescription] = useState("")
   const [estimatedTime, setEstimatedTime] = useState("")
   const [materialsNeeded, setMaterialsNeeded] = useState("")
-  const [errors, setErrors] = useState("")
+  const [validationErrors, setValidationErrors] = useState("")
+  const [generalErrors, setGeneralErrors] = useState("")
 
   const history = useHistory()
   const { id } = useParams()
@@ -17,9 +18,18 @@ export default function CreateCourse() {
   const { user, service } = useContext(Context)
 
   /**
+   * Clear any errors in state
+   */
+  function clearErrors() {
+    setValidationErrors("")
+    setGeneralErrors("")
+  }
+
+  /**
    * Add a course and then redirect the user to the course details page for the newly added course
    */
   function submit() {
+    clearErrors()
     service
       .addCourse(
         {
@@ -35,8 +45,18 @@ export default function CreateCourse() {
       .then((id) => {
         history.push(`/courses/${id}`)
       })
-      .catch((error) => {
-        setErrors(error)
+      .catch((errors) => {
+        if (errors.message) {
+          if (errors.message === "Failed to fetch") {
+            setGeneralErrors("Check your internet connection and try again.")
+          } else {
+            history.push("/error")
+          }
+        } else if (Array.isArray(errors)) {
+          setValidationErrors(errors)
+        } else {
+          history.push("/error")
+        }
       })
   }
 
@@ -52,10 +72,13 @@ export default function CreateCourse() {
       elements={() => (
         <Fragment>
           <div className="bounds course--detail">
+            {validationErrors ? (
+              <ValidationErrors errors={validationErrors} />
+            ) : null}
+            <h3 className="warning">{generalErrors}</h3>
             <h1>Create Course</h1>
             <div>
               <div className="grid-66">
-                {errors ? <ValidationErrors errors={errors} /> : null}
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                   <div>
