@@ -46,7 +46,7 @@ export default function CourseDetail() {
         <div className="bounds">
           <div className="grid-100">
             <span>
-              {author.id === user.id ? (
+              {user && user.id === author.id ? (
                 <span>
                   <Link className="button" to={`/courses/${id}/update`}>
                     Update Course
