@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import Context from "./provider"
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown"
 
 export default function CourseDetail() {
   const [author, setAuthor] = useState("")

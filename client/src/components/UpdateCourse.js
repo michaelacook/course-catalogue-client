@@ -23,9 +23,19 @@ export default function UpdateCourse() {
   }
 
   function submit() {
-    service.updateCourse({
-      title, description, estimatedTime, materialsNeeded
-    }, user.id, id, user.email, user.password)
+    service
+      .updateCourse(
+        {
+          title,
+          description,
+          estimatedTime,
+          materialsNeeded,
+        },
+        user.id,
+        id,
+        user.email,
+        user.password
+      )
       .then(() => {
         history.push(`/courses/${id}`)
       })
@@ -69,7 +79,9 @@ export default function UpdateCourse() {
                         value={title}
                       />
                       {/* course creator name */}
-                      <p>By {author.firstName} {author.lastName}</p>
+                      <p>
+                        By {author.firstName} {author.lastName}
+                      </p>
                     </div>
                     <div className="course--description">
                       <div>
@@ -121,10 +133,7 @@ export default function UpdateCourse() {
                   <button className="button" type="submit">
                     Update Course
                   </button>
-                  <button
-                    className="button button-secondary"
-                    onClick={cancel}
-                  >
+                  <button className="button button-secondary" onClick={cancel}>
                     Cancel
                   </button>
                 </div>

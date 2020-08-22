@@ -5,13 +5,21 @@ import CourseButton from "./CourseButton"
 
 export default function Courses() {
   const [courses, setCourses] = useState([])
+  const [error, setError] = useState("")
   const { service } = useContext(Context)
   const { user } = useContext(Context)
 
   useEffect(() => {
-    service.getCourses().then((data) => {
-      setCourses(data.courses.rows)
-    })
+    service
+      .getCourses()
+      .then((data) => {
+        setCourses(data.courses.rows)
+      })
+      .catch((error) => {
+        setError(
+          "You may not be connected to the internet. Check your connection and try again."
+        )
+      })
   }, courses)
 
   const coursesList = []
@@ -23,6 +31,11 @@ export default function Courses() {
 
   return (
     <div className="bounds">
+      {error ? (
+        <div className="message">
+          <h2>{error}</h2>
+        </div>
+      ) : null}
       {coursesList}
       <div className="grid-33">
         {user ? (

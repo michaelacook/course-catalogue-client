@@ -758,3 +758,11 @@ input:focus {
 .course--description textarea {
   margin-bottom: 20px;
 }
+
+.message {
+  margin-bottom: 20px;
+}
+
+.warning {
+  color: red
+}
