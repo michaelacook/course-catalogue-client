@@ -50,7 +50,6 @@ export default function App() {
   function signOut() {
     Cookies.remove("user")
     setUser(null)
-    return <Redirect to="/signin" />
   }
 
   return (
