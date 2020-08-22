@@ -11,6 +11,7 @@ import UserSignIn from "./UserSignIn"
 import Service from "../lib/Service"
 import UserSignOut from "./UserSignOut"
 import PrivateRoute from "./PrivateRoute"
+import NotFound from "./NotFound"
 import { Provider } from "./provider"
 
 export default function App() {
@@ -91,6 +92,7 @@ export default function App() {
             path="/signout"
             render={() => <UserSignOut signOut={signOut} />}
           />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </Provider>
