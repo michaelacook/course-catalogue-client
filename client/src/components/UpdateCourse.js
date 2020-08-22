@@ -10,7 +10,8 @@ export default function UpdateCourse() {
   const [estimatedTime, setEstimatedTime] = useState("")
   const [materialsNeeded, setMaterialsNeeded] = useState("")
   const [author, setAuthor] = useState("")
-  const [errors, setErrors] = useState("")
+  const [validationErrors, setValidationErrors] = useState("")
+  const [generalErrors, setGeneralErrors] = useState("")
 
   const { id } = useParams()
   const history = useHistory()
@@ -39,8 +40,16 @@ export default function UpdateCourse() {
       .then(() => {
         history.push(`/courses/${id}`)
       })
-      .catch((error) => {
-        setErrors(error)
+      .catch((errors) => {
+        if (errors.message) {
+          if (errors.message === "Failed to fetch") {
+            setGeneralErrors("Check your internet connection and try again.")
+          } else {
+            setGeneralErrors(errors.message)
+          }
+        } else if (Array.isArray(errors)) {
+          setValidationErrors(errors)
+        }
       })
   }
 
@@ -58,6 +67,8 @@ export default function UpdateCourse() {
   return (
     <div>
       <div className="bounds course--detail">
+        {validationErrors ? <ValidationErrors errors={validationErrors} /> : null}
+        <h3 className="warning">{generalErrors}</h3>
         <h1>Update Course</h1>
         <div>
           <Form
@@ -66,7 +77,6 @@ export default function UpdateCourse() {
             elements={() => (
               <Fragment>
                 <div className="grid-66">
-                  {errors ? <ValidationErrors errors={errors} /> : null}
                   <div className="course--header">
                     <h4 className="course--label">Course</h4>
                     <div>
