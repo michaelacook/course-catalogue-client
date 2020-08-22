@@ -38,7 +38,7 @@ export default function Courses() {
       ) : null}
       {coursesList}
       <div className="grid-33">
-        {user ? (
+        {user && !error ? (
           <Link
             className="course--module course--add--module"
             to="/courses/create"
