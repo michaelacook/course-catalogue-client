@@ -36,7 +36,7 @@ export default function Courses() {
           <h2>{error}</h2>
         </div>
       ) : null}
-      {coursesList}
+      {!courses.length && !error ? <h2>Loading...</h2> : coursesList}
       <div className="grid-33">
         {user && !error ? (
           <Link
