@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import Context from "./provider"
+import ReactMarkdown from 'react-markdown'
 
 export default function CourseDetail() {
   const [author, setAuthor] = useState("")
@@ -72,7 +73,7 @@ export default function CourseDetail() {
             </p>
           </div>
           <div className="course--description">
-            <p>{description}</p>
+            <ReactMarkdown source={description} />
           </div>
         </div>
         <div className="grid-25 grid-right">
@@ -84,7 +85,7 @@ export default function CourseDetail() {
               </li>
               <li className="course--stats--list--item">
                 <h4>Materials Needed</h4>
-                <pre>{materialsNeeded}</pre>
+                <ReactMarkdown source={materialsNeeded} />
               </li>
             </ul>
           </div>
