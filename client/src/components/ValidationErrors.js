@@ -6,8 +6,8 @@ import React from "react"
  */
 export default ({ errors }) => {
   const list = []
-  for (let error of errors) {
-    list.push(<li>{error}</li>)
+  for (let i = 0; i < errors.length; i++) {
+    list.push(<li key={i}>{errors[i]}</li>)
   }
   return (
     <div>
