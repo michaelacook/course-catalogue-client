@@ -20,24 +20,21 @@ export default function App() {
   /**
    * Call Service.authenticate to send Authorization header and fetch user
    * On success, set global user state and persist user in a cookie
-   * On fail, throw an error containing the error message
+   * The function does not perform any of it's own error handling. Errors are
+   * handled with .catch() where the function is called in UserSignIn
    * Caught error used to display to the user in the UserSignIn component
    * @param {String} emailAddress
    * @param {String} password
    */
   async function signIn(emailAddress, password) {
-    try {
-      const { authenticate } = Service
-      const response = await authenticate(emailAddress, password)
-      const { user } = response
-      user.password = password
-      Cookies.set("user", JSON.stringify(user), {
-        expires: 28,
-      })
-      setUser(user)
-    } catch (error) {
-      throw new Error("Your email address or password is incorrect.")
-    }
+    const { authenticate } = Service
+    const response = await authenticate(emailAddress, password)
+    const { user } = response
+    user.password = password
+    Cookies.set("user", JSON.stringify(user), {
+      expires: 28,
+    })
+    setUser(user)
   }
 
   /**

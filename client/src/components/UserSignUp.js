@@ -10,7 +10,8 @@ export default function UserSignUp() {
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [errors, setErrors] = useState("")
+  const [validationErrors, setValidationErrors] = useState("")
+  const [generalErrors, setGeneralErrors] = useState("")
   const [passwordsNotMatch, setPasswordsNotMatch] = useState(true)
 
   const history = useHistory()
@@ -25,7 +26,15 @@ export default function UserSignUp() {
       .signUp({ firstName, lastName, emailAddress, password })
       .then(() => history.push("/signin"))
       .catch((errors) => {
-        setErrors(errors)
+        if (errors.message) {
+          if (errors.message === "Failed to fetch") {
+            setGeneralErrors("Check your internet connection and try again.")
+          } else {
+            setGeneralErrors(errors.message)
+          }
+        } else if (Array.isArray(errors)) {
+          setValidationErrors(errors)
+        }
       })
   }
 
@@ -41,8 +50,9 @@ export default function UserSignUp() {
         <Fragment>
           <div className="bounds">
             <div className="grid-33 centered signin">
-              {errors ? <ValidationErrors errors={errors} /> : null}
+              {validationErrors ? <ValidationErrors errors={validationErrors} /> : null}
               <h1>Sign Up</h1>
+              <h3 className="warning">{generalErrors}</h3>
               <div>
                 <div>
                   <input

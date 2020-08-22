@@ -120,8 +120,8 @@ export default class Service {
   /**
    * Make a PUT request to modify a course to the database
    * @param {Object} payload - object containing table columns
-   * @param {*} emailAddress - authenticated user email
-   * @param {*} password - authenticated user pass
+   * @param {String} emailAddress - authenticated user email
+   * @param {String} password - authenticated user pass
    * @return {Promise} on success, with message on 401 status, with errors on reject
    */
   static async updateCourse(payload, userId, courseId, emailAddress, password) {

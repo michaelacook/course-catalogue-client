@@ -21,13 +21,17 @@ export default function UserSignIn() {
         history.push(from)
       })
       .catch((error) => {
-        setError(error)
+        if (error.message === "Failed to fetch") {
+          setError("Check your internet connection and try again.")
+        } else {
+          // here you will redirect to an error page for server error
+        }
       })
   }
 
   function cancel(e) {
     e.preventDefault()
-    history.goBack()
+    history.push("/")
   }
 
   return (
@@ -38,7 +42,7 @@ export default function UserSignIn() {
           <div className="bounds">
             <div className="grid-33 centered signin">
               <h1>Sign In</h1>
-              <h3>{error}</h3>
+              <h3 className="warning">{error}</h3>
               <div>
                 <div>
                   <input
