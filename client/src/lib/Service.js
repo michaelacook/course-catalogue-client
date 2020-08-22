@@ -1,3 +1,5 @@
+import ServerError from "../errors/ServerError"
+
 /**
  * Class encapsulating static methods for interacting with the api
  * Implements the fetch API
@@ -45,8 +47,8 @@ export default class Service {
     const response = await Service.request("http://localhost:5000/api/courses")
     if (response.status === 200) {
       return response.json().then((data) => data)
-    } else if (response.status === 400) {
-      throw new Error()
+    } else if (response.status === 400 || response.status === 500) {
+      throw ServerError
     }
   }
 
@@ -84,8 +86,8 @@ export default class Service {
     } else if (response.status === 401) {
       const errors = await response.json().then((data) => data.message)
       return Promise.reject(errors)
-    } else {
-      throw new Error("Something went wrong")
+    } else if (response.status === 500) {
+      throw ServerError
     }
   }
 
@@ -110,8 +112,8 @@ export default class Service {
     } else if (response.status === 401 || response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
-    } else {
-      throw new Error("Course could not be added")
+    } else if (response.status === 500) {
+      throw ServerError
     }
   }
 
@@ -137,8 +139,8 @@ export default class Service {
     } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
-    } else {
-      throw new Error("Course could not be modified")
+    } else if (response.status === 500) {
+      throw ServerError
     }
   }
 
@@ -159,8 +161,8 @@ export default class Service {
     } else if (response.status === 400) {
       const errors = await response.json().then((data) => data.errors)
       return Promise.reject(errors)
-    } else {
-      throw new Error()
+    } else if (response.status === 500) {
+      throw ServerError
     }
   }
 
@@ -184,6 +186,8 @@ export default class Service {
     } else if (response.status === 401) {
       const error = await response.json().then((data) => data.message)
       return Promise.reject(error)
+    } else if (response.status === 500) {
+      throw ServerError
     }
   }
 }
