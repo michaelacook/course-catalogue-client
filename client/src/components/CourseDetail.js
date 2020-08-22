@@ -24,6 +24,11 @@ export default function CourseDetail() {
       setMaterialsNeeded(data.course.materialsNeeded)
       setAuthor(data.course.author)
     })
+    .catch(error => {
+      if (error.message === "Failed to fetch") {
+        setError("Check your internet connection and try again.")
+      }
+    })
   }, [title, description, estimatedTime, materialsNeeded])
 
   function deleteCourse() {
@@ -35,7 +40,7 @@ export default function CourseDetail() {
           history.push("/")
         })
         .catch((error) => {
-          this.setError(error)
+          setError(error.message)
         })
     }
   }
@@ -64,6 +69,7 @@ export default function CourseDetail() {
         </div>
       </div>
       <div className="bounds course--detail">
+        <h3 class="warning">{error}</h3>
         <div className="grid-66">
           <div className="course--header">
             <h4 className="course--label">Course</h4>
