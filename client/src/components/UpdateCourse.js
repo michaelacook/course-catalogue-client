@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext, useEffect } from "react"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import Context from "./provider"
 import Form from "./Form"
 import ValidationErrors from "./ValidationErrors"
@@ -77,7 +77,7 @@ export default function UpdateCourse() {
       setMaterialsNeeded(data.course.materialsNeeded)
       setAuthor(data.course.author)
     })
-  }, [])
+  }, [service, id])
 
   return (
     <div>

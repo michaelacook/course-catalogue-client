@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from "react"
+import React, { Fragment, useState, useContext } from "react"
 import { Link, useHistory } from "react-router-dom"
 import Form from "./Form"
 import Context from "./provider"
@@ -10,10 +10,7 @@ export default function UserSignIn() {
 
   const history = useHistory()
   const { from } = history.location.state || { from: { pathname: "/" } }
-  const {
-    user,
-    methods: { signIn },
-  } = useContext(Context)
+  const { methods: { signIn } } = useContext(Context)
 
   function submit() {
     // display a message if the user leaves out email, password or both
@@ -36,7 +33,6 @@ export default function UserSignIn() {
           if (error.message === "Failed to fetch") {
             setError("Check your internet connection and try again.")
           } else {
-            console.log(error)
             setError(error.message)
           }
         } else {

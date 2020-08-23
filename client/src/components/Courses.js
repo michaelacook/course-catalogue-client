@@ -27,7 +27,7 @@ export default function Courses() {
           history.push("/error")
         }
       })
-  }, courses)
+  }, [history, service])
 
   const coursesList = []
   for (let course of courses) {
