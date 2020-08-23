@@ -1,12 +1,18 @@
-import React, { Component } from "react"
+import React from "react"
 
-export default class Form extends Component {
-  handleSubmit = (e) => {
+/**
+ * A reusable form component that renders as many elements
+ * passed to it in a function elements()
+ * Provides a handleSubmit function to handle preventing default
+ * browser submitting, then calls a submit function passes as props
+ * @param {Object} props
+ * @return {Function} form component
+ */
+export default function Form(props) {
+  function handleSubmit(e) {
     e.preventDefault()
-    this.props.submit()
+    props.submit()
   }
 
-  render() {
-    return <form onSubmit={this.handleSubmit}>{this.props.elements()}</form>
-  }
+  return <form onSubmit={handleSubmit}>{props.elements()}</form>
 }

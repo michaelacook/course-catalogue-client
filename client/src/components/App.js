@@ -17,6 +17,7 @@ import { Provider } from "./provider"
 
 export default function App() {
   const [user, setUser] = useState(Cookies.getJSON("user") || null)
+
   /**
    * Call Service.authenticate to send Authorization header and fetch user
    * On success, set global user state and persist user in a cookie

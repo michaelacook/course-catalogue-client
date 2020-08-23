@@ -25,6 +25,9 @@ export default function UserSignUp() {
     setGeneralErrors("")
   }
 
+  /**
+   * Send a request to create a new user
+   */
   function submit() {
     clearErrors()
     if (password !== confirmPassword) {
@@ -47,6 +50,10 @@ export default function UserSignUp() {
       })
   }
 
+  /**
+   * Cancel and redirect to home page without creating an account
+   * @param {Object} e - event
+   */
   function cancel(e) {
     e.preventDefault()
     history.push("/")

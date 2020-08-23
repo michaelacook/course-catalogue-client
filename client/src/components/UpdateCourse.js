@@ -20,6 +20,7 @@ export default function UpdateCourse() {
 
   /**
    * Clear any errors in state
+   * This prevents irrelevant errors from displaying
    */
   function clearErrors() {
     setValidationErrors("")
@@ -35,6 +36,11 @@ export default function UpdateCourse() {
     history.goBack()
   }
 
+  /**
+   * Call the updateCourse Service method and redirect to the updated course on success
+   * If failed, check the message of the error and set the appropriate message
+   * If the error is just an array, then it is validation errors
+   */
   function submit() {
     clearErrors()
     service
@@ -68,7 +74,10 @@ export default function UpdateCourse() {
       })
   }
 
-  // only called once or else will be called each time the user changes a form field
+  /**
+   * Make a request to get the course to be updated
+   * Set component state with course data
+   */
   useEffect(() => {
     service.getCourse(id).then((data) => {
       setTitle(data.course.title)
@@ -105,7 +114,6 @@ export default function UpdateCourse() {
                         className="input-title course--title--input"
                         value={title}
                       />
-                      {/* course creator name */}
                       <p>
                         By {author.firstName} {author.lastName}
                       </p>

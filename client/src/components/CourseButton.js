@@ -1,6 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+/**
+ * A reusable course button that renders a link to a course
+ * @param {Object} props
+ * @return {Function} component
+ */
 const CourseButton = (props) => {
   const { title, id } = props
   return (

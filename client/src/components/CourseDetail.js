@@ -10,12 +10,14 @@ export default function CourseDetail() {
   const [estimatedTime, setEstimatedTime] = useState("")
   const [materialsNeeded, setMaterialsNeeded] = useState("")
   const [error, setError] = useState("")
-
   const history = useHistory()
   const { id } = useParams()
-
   const { user, service } = useContext(Context)
 
+  /**
+   * When component mounts get the course
+   * Set state with course data for display
+   */
   useEffect(() => {
     service
       .getCourse(id)
@@ -37,6 +39,10 @@ export default function CourseDetail() {
       })
   }, [title, description, estimatedTime, materialsNeeded, history, id, service])
 
+  /**
+   * If user clicks Ok on browser confirm, send request to delete the course
+   * After deleting, set errors or redirect back to home page
+   */
   function deleteCourse() {
     if (window.confirm("Are you sure you want to delete this course?")) {
       const { email, password } = user

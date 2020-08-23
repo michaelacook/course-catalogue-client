@@ -59,9 +59,7 @@ export default class Service {
    * @return {Object} data on response status 200
    */
   static async getCourse(id) {
-    const response = await Service.request(
-      `${baseURL}/api/courses/${id}`
-    )
+    const response = await Service.request(`${baseURL}/api/courses/${id}`)
     if (response.status === 200) {
       return response.json().then((data) => data)
     } else if (response.status === 400) {
@@ -149,11 +147,7 @@ export default class Service {
    * @return {Array} data.errors on status 400
    */
   static async signUp(body) {
-    const response = await Service.request(
-      `${baseURL}/api/users`,
-      "POST",
-      body
-    )
+    const response = await Service.request(`${baseURL}/api/users`, "POST", body)
     if (response.status === 201) {
       return []
     } else if (response.status === 400) {

@@ -10,8 +10,13 @@ export default function UserSignIn() {
 
   const history = useHistory()
   const { from } = history.location.state || { from: { pathname: "/" } }
-  const { methods: { signIn } } = useContext(Context)
+  const {
+    methods: { signIn },
+  } = useContext(Context)
 
+  /**
+   * Attempt to authenticate the user, then redirect to home page or last visited page
+   */
   function submit() {
     // display a message if the user leaves out email, password or both
     if (!emailAddress || !password) {

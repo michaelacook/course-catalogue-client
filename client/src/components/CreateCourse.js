@@ -11,14 +11,12 @@ export default function CreateCourse() {
   const [materialsNeeded, setMaterialsNeeded] = useState("")
   const [validationErrors, setValidationErrors] = useState("")
   const [generalErrors, setGeneralErrors] = useState("")
-
   const history = useHistory()
-  // const { id } = useParams()
-
   const { user, service } = useContext(Context)
 
   /**
    * Clear any errors in state
+   * Prevents irrelevant errors from continuing to display
    */
   function clearErrors() {
     setValidationErrors("")
@@ -60,6 +58,10 @@ export default function CreateCourse() {
       })
   }
 
+  /**
+   * Cancel and go back to last page in history
+   * @param {Object} e - event
+   */
   function cancel(e) {
     // must prevent default because (probably event bubbling) causes the submit function to fire when you cancel
     e.preventDefault()

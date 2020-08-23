@@ -10,6 +10,10 @@ export default function Courses() {
   const { user } = useContext(Context)
   const history = useHistory()
 
+  /**
+   * Make a request to get an array of courses
+   * Set state with courses
+   */
   useEffect(() => {
     service
       .getCourses()
@@ -29,6 +33,7 @@ export default function Courses() {
       })
   }, [history, service])
 
+  // populate an array of CourseButton components to be displayed
   const coursesList = []
   for (let course of courses) {
     coursesList.push(

@@ -1,7 +1,8 @@
 import React from "react"
 
 /**
- * Display a set of validation errors
+ * Reusable vaidation errors component
+ * Display a set of validation errors passes as props
  * Destructures props to get an errors array
  */
 export default ({ errors }) => {
