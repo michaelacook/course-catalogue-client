@@ -83,7 +83,7 @@ export default function CourseDetail() {
         </div>
       </div>
       <div className="bounds course--detail">
-        <h3 class="warning">{error}</h3>
+        <h3 className="warning">{error}</h3>
         <div className="grid-66">
           <div className="course--header">
             <h4 className="course--label">Course</h4>
