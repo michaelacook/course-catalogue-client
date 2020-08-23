@@ -35,7 +35,7 @@ export default function CourseDetail() {
           }
         }
       })
-  }, [title, description, estimatedTime, materialsNeeded])
+  }, [title, description, estimatedTime, materialsNeeded, history, id, service])
 
   function deleteCourse() {
     if (window.confirm("Are you sure you want to delete this course?")) {
