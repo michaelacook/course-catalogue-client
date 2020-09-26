@@ -1,8 +1,9 @@
 # Course Catalogue Client 
 This project is a React-based client application for a [course catalogue API](https://github.com/michaelacook/course-catalogue-api). Full Stack JavaScript project 10.
+The application allows users to create an account, then create, read, update and delete courses.
 
 ## Running Locally 
-To run the project locally, clone to your local machine. Then change into the `/api` directory and run
+To run the project locally, clone to your local machine and run
 
 `$ npm install`
 
